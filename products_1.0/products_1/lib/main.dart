@@ -15,8 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'SpesApp',
+      
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
       home: const ListaArticoli(),
@@ -43,13 +44,18 @@ class _MyWidgetState extends State<ProvaDb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(title: const Text('SpesApp')),
+    
+    appBar: AppBar(
+    title: const Text('SpesApp')),
     body: Center(child: Container(
     child: Text(id.toString())
-    ),)
+    ),
+    )
     );
+    
   }
-
+ 
+ 
   Future provaDb() async {
     ArticoloDb articoloDb = ArticoloDb();
     Articolo articolo = Articolo('Arance', '2kg', 'da spremuta');

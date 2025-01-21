@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"name": "dns",
+			"path": ".."
+		},
+		{
+			"name": "ios_assets",
+			"path": "..\\..\\flutter-sample-project-master\\ios_assets"
+		},
+		{
+			"name": "web_assets",
+			"path": "..\\..\\flutter-sample-project-master\\web_assets"
+		},
+		{
+			"name": "android_assets",
+			"path": "..\\..\\flutter-sample-project-master\\android_assets"
+		}
+	],
+	"settings": {}
+}
