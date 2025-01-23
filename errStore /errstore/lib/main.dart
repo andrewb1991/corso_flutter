@@ -4,6 +4,7 @@ import './src/api_service.dart';
 import './src/products_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import './src/addproductpage.dart';
+import 'package:http/http.dart' as http;
 // import 'package:cached_network_image/cached_network_image.dart';
 
 void main() {
@@ -41,6 +42,33 @@ class ItemsScreen extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 58, 118, 166),
         actions: [
           IconButton(
+              icon: Icon(Icons.smartphone),
+              tooltip: 'Smartphone',
+              onPressed: () {
+                Future<void> _submitProduct() async {
+                  final url = Uri.parse(
+                      'https://capstone-project-server-sy5q.onrender.com/smartphone/');
+                  final response = await http.get(
+                    url,
+                  );
+
+                  if (response.statusCode == 200 ||
+                      response.statusCode == 201) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text('Prodotto aggiunto con successo!')),
+                    );
+                    Navigator.pop(context); // Torna indietro dopo l'inserimento
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                              Text('Errore durante l\'aggiunta del prodotto')),
+                    );
+                  }
+                }
+              }),
+          IconButton(
               icon: Icon(Icons.add, color: Colors.blue),
               onPressed: () {
                 Navigator.push(
@@ -56,6 +84,7 @@ class ItemsScreen extends StatelessWidget {
                     // );
                     );
               }),
+          // Pulsante per Smartphone
         ],
       ),
       backgroundColor: const Color.fromARGB(255, 156, 190, 218),
@@ -74,11 +103,7 @@ class ItemsScreen extends StatelessWidget {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 final item = items[index];
-                final backgroundColor = index % 2 == 0 
-        ? Colors.blue[50] // Colore per righe pari
-        : Colors.orange[50]; // Colore per righe dispari
                 return ListTile(
-                
                   onTap: () {
                     Navigator.push(
                         context,
@@ -97,7 +122,8 @@ class ItemsScreen extends StatelessWidget {
                     item.thumbnail, // Link all'immagine
                     width: 50, // Larghezza dell'immagine
                     height: 50, // Altezza dell'immagine
-                    fit: BoxFit.scaleDown, // Adatta l'immagine all'area disponibile
+                    fit: BoxFit
+                        .scaleDown, // Adatta l'immagine all'area disponibile
                     errorBuilder: (context, error, stackTrace) {
                       return Icon(Icons.broken_image,
                           size: 50); // Icona di fallback
@@ -112,7 +138,6 @@ class ItemsScreen extends StatelessWidget {
                       // Text("Descrizione: ${item.description}"), // Secondo subtitle
                     ],
                   ),
-                  
                 );
               },
             );

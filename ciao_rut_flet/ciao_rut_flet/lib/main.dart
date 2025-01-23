@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(RutApp());
+void main() => runApp(const RutApp());
 
 class RutApp extends StatelessWidget {
   const RutApp({super.key});

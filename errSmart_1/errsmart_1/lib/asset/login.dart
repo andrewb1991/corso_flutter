@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('errSmart Login'),
+          title: const Text('errSmart Login'),
           centerTitle: true,
           foregroundColor: const Color.fromARGB(255, 36, 69, 168),
           backgroundColor: const Color.fromARGB(255, 88, 121, 164)),
@@ -31,17 +31,17 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'), style: TextStyle(color: Colors.blue),
+              decoration: const InputDecoration(labelText: 'Email'), style: const TextStyle(color: Colors.blue),
             ),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _login, // Funzione per la logica di autenticazione
-              child: Text('Accedi'),
+              child: const Text('Accedi'),
             ),
           ],
         ),
@@ -93,12 +93,12 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Errore'),
+          title: const Text('Errore'),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );

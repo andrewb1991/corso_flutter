@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:products_1/dati/articolo.dart';
 import 'package:products_1/pagine/lista_articoli.dart';
 import './dati/articolo_db.dart';
-import './dati/articolo.dart';
 
 void main() {
   runApp(const MyApp());

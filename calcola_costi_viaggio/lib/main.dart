@@ -49,7 +49,7 @@ class _CalcolaCostiScreenState extends State<CalcolaCostiScreen> {
               controller: chilometriController,
               keyboardType: TextInputType.number,
               style: TextStyle(fontSize: 20, color: Colors.grey[800]),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Inserisci il numero di KM effettuati',
                 hintStyle: TextStyle(fontSize: 18),
               ),

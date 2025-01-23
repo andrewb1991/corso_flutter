@@ -9,24 +9,24 @@ class Prodotto {
   Prodotto(this.id, this.product, this.price, this.description, this.category, this.thumbnail);
 
   Prodotto.fromMap(Map<String, dynamic> mappa){
- this.id = mappa['id'];
-    this.product = mappa['volumeInfo']['product'];
-    this.price = (mappa['volumeInfo']['price'] == null) 
+ id = mappa['id'];
+    product = mappa['volumeInfo']['product'];
+    price = (mappa['volumeInfo']['price'] == null) 
       ? '' 
       : mappa['volumeInfo']['authors'].toString();
-    this.description = (mappa['volumeInfo']['description'] == null) 
+    description = (mappa['volumeInfo']['description'] == null) 
       ? '' 
       : mappa['volumeInfo']['description'].toString();
-    this.price = (mappa['volumeInfo']['price'] == null) 
+    price = (mappa['volumeInfo']['price'] == null) 
       ? '' 
       : mappa['volumeInfo']['price'].toString();
     try {
-      this.thumbnail = (mappa['volumeInfo']['imageLinks']['thumbnail'] == null) 
+      thumbnail = (mappa['volumeInfo']['imageLinks']['thumbnail'] == null) 
         ? '' 
         : mappa['volumeInfo']['imageLinks']['thumbnail'].toString();
     }
     catch (errore) {
-      this.thumbnail = '';
+      thumbnail = '';
     }
      
   }

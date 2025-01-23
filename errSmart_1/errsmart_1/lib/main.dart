@@ -9,6 +9,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
 }
 
 class ProdottiScreen extends StatefulWidget {
+  const ProdottiScreen({super.key});
+
   @override
   _ProdottiScreenState createState() => _ProdottiScreenState();
 }
@@ -64,7 +68,7 @@ if (response.statusCode == 200) {
 Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Lista Prodotti"),
+        title: const Text("Lista Prodotti"),
       ),
       body: prodotti.isEmpty
           ? Center(child: Text(statusMessage))

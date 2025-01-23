@@ -31,8 +31,8 @@ class _PaginaArticoloState extends State<PaginaArticolo> {
     return Scaffold(
       appBar: AppBar(title: const Text('Dettaglio Articolo')),
       floatingActionButton: FloatingActionButton(
-      child: Icon(Icons.save),
       onPressed: salvaArticolo,
+      child: Icon(Icons.save),
       ),
       body: SingleChildScrollView(
         child: Column(children: [

@@ -35,8 +35,8 @@ class LibriScreen extends StatefulWidget {
 }
 
 class _LibriScreenState extends State<LibriScreen> {
-  Icon icona = Icon(Icons.search);
-  Widget widgetRicerca = Text('Libri');
+  Icon icona = const Icon(Icons.search);
+  Widget widgetRicerca = const Text('Libri');
   String risultato = '';
   List<Libro> libri = [];
   @override
@@ -52,17 +52,17 @@ class _LibriScreenState extends State<LibriScreen> {
           title: widgetRicerca, actions: [
           IconButton(onPressed: (){
 setState(() {
-                if (this.icona.icon == Icons.search) {
-                  this.icona = Icon(Icons.cancel);
-                  this.widgetRicerca = TextField(
+                if (icona.icon == Icons.search) {
+                  icona = const Icon(Icons.cancel);
+                  widgetRicerca = TextField(
                     textInputAction: TextInputAction.search,
                     onSubmitted: (testoRicerca) => cercaLibri(testoRicerca),
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
                   );
                 } else {
                   setState(() {
-                    this.icona = Icon(Icons.search);
-                    this.widgetRicerca = Text('Libri');
+                    icona = const Icon(Icons.search);
+                    widgetRicerca = const Text('Libri');
                   });
                 }
               });

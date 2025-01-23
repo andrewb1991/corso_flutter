@@ -94,7 +94,7 @@ class _ListaArticoliState extends State<ListaArticoli> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('NO'))
+              child: const Text('NO'))
         ]);
     showDialog(
         context: context,
