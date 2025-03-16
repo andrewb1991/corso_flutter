@@ -15,4 +15,15 @@ class ApiService {
       throw Exception("Errore durante il recupero dei dati");
     }
   }
+  Future<List<Product>> fetchSmartphones() async {
+    final response = await http.get(Uri.parse('$baseUrl/smartphone'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => Product.fromMap(json)).toList();
+    } else {
+      throw Exception("Errore durante il recupero degli smartphone");
+    }
+  }
+
 }

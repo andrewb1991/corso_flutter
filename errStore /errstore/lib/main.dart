@@ -5,6 +5,8 @@ import './src/products_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import './src/addproductpage.dart';
 import 'package:http/http.dart' as http;
+import './src/loginpage/login_new.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 
 void main() {
@@ -20,6 +22,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'errStore',
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => LoginPage(),
+        '/home': (context) => ItemsScreen(),
+      },
       theme: ThemeData(
         primarySwatch: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -28,6 +35,50 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+Future<void> _confirmLogout(BuildContext context) async {
+    bool? shouldLogout = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Conferma Logout"),
+          content: Text("Sei sicuro di voler uscire?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false), // Annulla
+              child: Text("Annulla"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true), // Conferma
+              child: Text("Logout"),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldLogout == true) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('token'); // Rimuove il token salvato
+
+      // Naviga alla schermata di login e rimuove la Home dallo stack
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    }
+  }
+
+// Future<void> _logout(BuildContext context) async {
+//   final prefs = await SharedPreferences.getInstance();
+//   await prefs.remove('token'); // Rimuove il token salvato
+
+//   // Naviga alla schermata di login e rimuove la Home dallo stack
+//   Navigator.pushReplacement(
+//     context,
+//     MaterialPageRoute(builder: (context) => LoginPage()),
+//   );
+// }
 
 class ItemsScreen extends StatelessWidget {
   final ApiService apiService = ApiService();
@@ -42,32 +93,35 @@ class ItemsScreen extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 58, 118, 166),
         actions: [
           IconButton(
-              icon: Icon(Icons.smartphone),
-              tooltip: 'Smartphone',
-              onPressed: () {
-                Future<void> _submitProduct() async {
-                  final url = Uri.parse(
-                      'https://capstone-project-server-sy5q.onrender.com/smartphone/');
-                  final response = await http.get(
-                    url,
-                  );
+            icon: Icon(Icons.logout),
+            tooltip: 'logout',
+            onPressed: () => _confirmLogout(context),
 
-                  if (response.statusCode == 200 ||
-                      response.statusCode == 201) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text('Prodotto aggiunto con successo!')),
-                    );
-                    Navigator.pop(context); // Torna indietro dopo l'inserimento
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content:
-                              Text('Errore durante l\'aggiunta del prodotto')),
-                    );
-                  }
-                }
-              }),
+            //  {
+            //   Future<void> _submitProduct() async {
+            //     final url = Uri.parse(
+            //         'https://capstone-project-server-sy5q.onrender.com/all/producsts/smartphone/');
+            //     final response = await http.get(
+            //       url,
+            //     );
+
+            //     if (response.statusCode == 200 ||
+            //         response.statusCode == 201) {
+            //       ScaffoldMessenger.of(context).showSnackBar(
+            //         SnackBar(
+            //             content: Text('Prodotto aggiunto con successo!')),
+            //       );
+            //       Navigator.pop(context); // Torna indietro dopo l'inserimento
+            //     } else {
+            //       ScaffoldMessenger.of(context).showSnackBar(
+            //         SnackBar(
+            //             content:
+            //                 Text('Errore durante l\'aggiunta del prodotto')),
+            //       );
+            //     }
+            //   }
+            // }
+          ),
           IconButton(
               icon: Icon(Icons.add, color: Colors.blue),
               onPressed: () {
@@ -144,6 +198,7 @@ class ItemsScreen extends StatelessWidget {
           }
         },
       ),
+
     );
   }
 }

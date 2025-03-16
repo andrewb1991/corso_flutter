@@ -39,7 +39,7 @@ class _AddProductPageState extends State<AddProductPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Prodotto aggiunto con successo!')),
         );
-        Navigator.pop(context); // Torna indietro dopo l'inserimento
+        Navigator.pop(context, true); // Torna indietro dopo l'inserimento
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Errore durante l\'aggiunta del prodotto')),
