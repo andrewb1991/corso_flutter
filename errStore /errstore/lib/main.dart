@@ -36,19 +36,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Future<void> deleteProduct(String productId) async {
-    final response = await http.delete(
-      Uri.parse('https://capstone-project-server-sy5q.onrender.com/all/producsts/$productId'),
-    );
-
-    if (response.statusCode == 200) {
-      print("Prodotto eliminato con successo!");
-    } else {
-      throw Exception("Errore durante l'eliminazione del prodotto: ${response.body}");
-    }
-  }
-}
-
 Future<void> _confirmLogout(BuildContext context) async {
     bool? shouldLogout = await showDialog(
       context: context,
