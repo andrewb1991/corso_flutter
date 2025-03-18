@@ -36,6 +36,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
+Future<void> deleteProduct(String productId) async {
+    final response = await http.delete(
+      Uri.parse('https://capstone-project-server-sy5q.onrender.com/all/producsts/$productId'),
+    );
+
+    if (response.statusCode == 200) {
+      print("Prodotto eliminato con successo!");
+    } else {
+      throw Exception("Errore durante l'eliminazione del prodotto: ${response.body}");
+    }
+  }
+}
+
 Future<void> _confirmLogout(BuildContext context) async {
     bool? shouldLogout = await showDialog(
       context: context,
@@ -89,11 +102,12 @@ class ItemsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("errSmart"),
+        title: const Text("errSmart", style: TextStyle(color: Colors.blue)),
+        
         backgroundColor: const Color.fromARGB(255, 58, 118, 166),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: Icon(Icons.logout, color: Colors.blue),
             tooltip: 'logout',
             onPressed: () => _confirmLogout(context),
 
@@ -172,6 +186,10 @@ class ItemsScreen extends StatelessWidget {
                         // Navigator.push(context, route);
                         );
                   },
+                  shape: RoundedRectangleBorder(
+    side: BorderSide(color: Colors.blue, width: 1), // Bordo blu di 2px
+    borderRadius: BorderRadius.circular(6), // Angoli arrotondati
+  ),
                   leading: Image.network(
                     item.thumbnail, // Link all'immagine
                     width: 50, // Larghezza dell'immagine
