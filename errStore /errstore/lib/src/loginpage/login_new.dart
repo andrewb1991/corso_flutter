@@ -60,7 +60,16 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: const Color.fromARGB(255, 58, 118, 166),
       ),
       backgroundColor: const Color.fromARGB(255, 93, 159, 213),
-      body: Padding(
+      body: 
+Container(
+    // decoration: BoxDecoration(
+    //   image: DecorationImage(
+    //     image: NetworkImage("https://res.cloudinary.com/dpb7beo1e/image/upload/v1681832196/white_logo_transparent_background_fwo0ia.png"),
+    //     fit: BoxFit.cover,
+    //   ),
+    // ),
+    child: 
+      Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -84,9 +93,9 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: login,
                     child: Text("Login"),
                   ),
-          ],
+          ]
         ),
       ),
-    );
+    ));
   }
 }

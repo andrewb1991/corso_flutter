@@ -109,7 +109,7 @@ Navigator.pushReplacementNamed(context, '/home');
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 100),
               ElevatedButton(
                 onPressed: _submitProduct,
                 child: Text('Aggiungi Prodotto'),

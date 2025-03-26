@@ -174,7 +174,6 @@ return ListView.builder(
           );
         },
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: Colors.blue, width: 1),
           borderRadius: BorderRadius.circular(6),
         ),
         leading: Image.network(
