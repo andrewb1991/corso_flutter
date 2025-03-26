@@ -7,7 +7,6 @@ import './src/addproductpage.dart';
 import 'package:http/http.dart' as http;
 import './src/loginpage/login_new.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:cached_network_image/cached_network_image.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,8 +27,11 @@ class MyApp extends StatelessWidget {
         '/home': (context) => ItemsScreen(),
       },
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue, 
+        ),
       ),
       home: ItemsScreen(),
     );
@@ -37,48 +39,37 @@ class MyApp extends StatelessWidget {
 }
 
 Future<void> _confirmLogout(BuildContext context) async {
-    bool? shouldLogout = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Conferma Logout"),
-          content: Text("Sei sicuro di voler uscire?"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false), // Annulla
-              child: Text("Annulla"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true), // Conferma
-              child: Text("Logout"),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (shouldLogout == true) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('token'); // Rimuove il token salvato
-
-      // Naviga alla schermata di login e rimuove la Home dallo stack
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+  bool? shouldLogout = await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Conferma Logout"),
+        content: Text("Sei sicuro di voler uscire?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false), // Annulla
+            child: Text("Annulla"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true), // Conferma
+            child: Text("Logout"),
+          ),
+        ],
       );
-    }
+    },
+  );
+
+  if (shouldLogout == true) {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token'); // Rimuove il token salvato
+
+    // Naviga alla schermata di login e rimuove la Home dallo stack
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
   }
-
-// Future<void> _logout(BuildContext context) async {
-//   final prefs = await SharedPreferences.getInstance();
-//   await prefs.remove('token'); // Rimuove il token salvato
-
-//   // Naviga alla schermata di login e rimuove la Home dallo stack
-//   Navigator.pushReplacement(
-//     context,
-//     MaterialPageRoute(builder: (context) => LoginPage()),
-//   );
-// }
+}
 
 class ItemsScreen extends StatelessWidget {
   final ApiService apiService = ApiService();
@@ -90,38 +81,12 @@ class ItemsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("errSmart", style: TextStyle(color: Colors.blue)),
-        
         backgroundColor: const Color.fromARGB(255, 58, 118, 166),
         actions: [
           IconButton(
             icon: Icon(Icons.logout, color: Colors.blue),
             tooltip: 'logout',
             onPressed: () => _confirmLogout(context),
-
-            //  {
-            //   Future<void> _submitProduct() async {
-            //     final url = Uri.parse(
-            //         'https://capstone-project-server-sy5q.onrender.com/all/producsts/smartphone/');
-            //     final response = await http.get(
-            //       url,
-            //     );
-
-            //     if (response.statusCode == 200 ||
-            //         response.statusCode == 201) {
-            //       ScaffoldMessenger.of(context).showSnackBar(
-            //         SnackBar(
-            //             content: Text('Prodotto aggiunto con successo!')),
-            //       );
-            //       Navigator.pop(context); // Torna indietro dopo l'inserimento
-            //     } else {
-            //       ScaffoldMessenger.of(context).showSnackBar(
-            //         SnackBar(
-            //             content:
-            //                 Text('Errore durante l\'aggiunta del prodotto')),
-            //       );
-            //     }
-            //   }
-            // }
           ),
           IconButton(
               icon: Icon(Icons.add, color: Colors.blue),
@@ -133,13 +98,8 @@ class ItemsScreen extends StatelessWidget {
                       childCurrent: this,
                       child: AddProductPage(),
                     )
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => AddProductPage()),
-                    // );
                     );
               }),
-          // Pulsante per Smartphone
         ],
       ),
       backgroundColor: const Color.fromARGB(255, 156, 190, 218),
@@ -154,56 +114,93 @@ class ItemsScreen extends StatelessWidget {
             return const Center(child: Text("Nessun dato disponibile"));
           } else {
             final items = snapshot.data!;
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final item = items[index];
-                return ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeftJoined,
-                          childCurrent: this,
-                          child: ProdottoScreen(items[index]),
-                        )
 
-                        // MaterialPageRoute route = MaterialPageRoute(
-                        //     builder: (_) => ProdottoScreen(items[index]));
-                        // Navigator.push(context, route);
-                        );
-                  },
-                  shape: RoundedRectangleBorder(
-    side: BorderSide(color: Colors.blue, width: 1), // Bordo blu di 2px
-    borderRadius: BorderRadius.circular(6), // Angoli arrotondati
-  ),
-                  leading: Image.network(
-                    item.thumbnail, // Link all'immagine
-                    width: 50, // Larghezza dell'immagine
-                    height: 50, // Altezza dell'immagine
-                    fit: BoxFit
-                        .scaleDown, // Adatta l'immagine all'area disponibile
-                    errorBuilder: (context, error, stackTrace) {
-                      return Icon(Icons.broken_image,
-                          size: 50); // Icona di fallback
-                    },
-                  ),
-                  title: Text(item.product),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Categoria: ${item.category}"), // Primo subtitle
-                      Text("Prezzo: ${item.price} €"),
-                      // Text("Descrizione: ${item.description}"), // Secondo subtitle
-                    ],
-                  ),
-                );
-              },
+return ListView.builder(
+  itemCount: items.length,
+  itemBuilder: (context, index) {
+    final item = items[index];
+    return Dismissible(
+      key: Key(item.id),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        color: Colors.red,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: const Icon(Icons.delete, color: Colors.white),
+      ),
+      confirmDismiss: (direction) async {
+        return await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Conferma Eliminazione"),
+              content: Text("Sei sicuro di voler eliminare questo prodotto?"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text("Annulla"),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: Text("Elimina", style: TextStyle(color: Colors.red)),
+                ),
+              ],
             );
+          },
+        );
+      },
+      onDismissed: (direction) async {
+        try {
+          await apiService.deleteProduct(item.id);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Prodotto eliminato con successo")),
+          );
+          items.removeAt(index); // Rimuove dalla lista
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Errore durante l'eliminazione: $e")),
+          );
+        }
+      },
+      child: ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.rightToLeftJoined,
+              childCurrent: this,
+              child: ProdottoScreen(items[index]),
+            ),
+          );
+        },
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.blue, width: 1),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        leading: Image.network(
+          item.thumbnail,
+          width: 50,
+          height: 50,
+          fit: BoxFit.scaleDown,
+          errorBuilder: (context, error, stackTrace) {
+            return Icon(Icons.broken_image, size: 50);
+          },
+        ),
+        title: Text(item.product),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Categoria: ${item.category}"),
+            Text("Prezzo: ${item.price} €"),
+          ],
+        ),
+      ),
+    );
+  },
+);
           }
         },
       ),
-
     );
   }
 }

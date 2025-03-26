@@ -19,7 +19,7 @@ class ProdottoScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(8),
               child: ClipRRect(
-    borderRadius: BorderRadius.circular(16.0), // Bordo arrotondato
+    borderRadius: BorderRadius.circular(16.0), 
     child: Image.network(
       prodotti.thumbnail,
       width: 200,
@@ -27,15 +27,12 @@ class ProdottoScreen extends StatelessWidget {
       fit: BoxFit.contain,
     ),
   ),),
-            //   child: Image.network(prodotti.thumbnail),
-            // ),
             Padding(
               padding: EdgeInsets.all(8),
               child: Text(
                 'Prezzo: ${prodotti.price}€',
                 style: TextStyle(
                     fontSize: 20, color: const Color.fromARGB(255, 27, 95, 150)
-                    // Theme.of(context).colorScheme.onPrimaryFixed
                     ),
               ),
               
@@ -46,7 +43,6 @@ class ProdottoScreen extends StatelessWidget {
                 'Categoria: ${prodotti.category}',
                 style: TextStyle(
                     fontSize: 20, color: const Color.fromARGB(255, 27, 95, 150)
-                    // Theme.of(context).colorScheme.onPrimaryFixed
                     ),
               ),
               
@@ -59,6 +55,7 @@ class ProdottoScreen extends StatelessWidget {
                     fontSize: 20, color: const Color.fromARGB(255, 255, 255, 255)),
               ),
             ),
+            
           ],
         ),
       )),

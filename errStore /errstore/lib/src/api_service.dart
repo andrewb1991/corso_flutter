@@ -26,4 +26,15 @@ class ApiService {
     }
   }
 
+Future<void> deleteProduct(String id) async {
+  final response = await http.delete(Uri.parse('https://capstone-project-server-sy5q.onrender.com/allproducts/$id'));
+
+  if (response.statusCode != 200) {
+    throw Exception('Errore durante l\'eliminazione del prodotto');
+  }
 }
+
+
+}
+
+
