@@ -37,13 +37,13 @@ class _AddProductPageState extends State<AddProductPage> {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Prodotto aggiunto con successo!')),
+          SnackBar(content: Text('Prodotto aggiunto con successo!'),behavior: SnackBarBehavior.floating, backgroundColor: Colors.blue),
         );
 Navigator.pushReplacementNamed(context, '/home');
       } 
       else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Errore durante l\'aggiunta del prodotto')),
+          SnackBar(content: Text('Errore durante l\'aggiunta del prodotto'), behavior: SnackBarBehavior.floating),
         );
       }
     }
@@ -52,9 +52,11 @@ Navigator.pushReplacementNamed(context, '/home');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Aggiungi Prodotto'), backgroundColor: const Color.fromARGB(255, 78, 183, 125),),
+     backgroundColor:const Color.fromARGB(255, 156, 190, 218),
+      appBar: AppBar(title: Text('Aggiungi Prodotto', style: TextStyle(color: Colors.blue)), 
+      backgroundColor: const Color.fromARGB(255, 58, 118, 166)),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(48.0),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -112,7 +114,7 @@ Navigator.pushReplacementNamed(context, '/home');
               SizedBox(height: 100),
               ElevatedButton(
                 onPressed: _submitProduct,
-                child: Text('Aggiungi Prodotto'),
+                child: Text('Aggiungi Prodotto', style: TextStyle(),),
               ),
             ],
           ),

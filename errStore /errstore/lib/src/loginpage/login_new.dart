@@ -40,13 +40,13 @@ class _LoginPageState extends State<LoginPage> {
       await prefs.setString('token', token); // Salva il token
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Login effettuato con successo!")),
+        SnackBar(content: Text("Login effettuato con successo!"), behavior: SnackBarBehavior.floating, backgroundColor: Colors.blue),
       );
 
       Navigator.pushReplacementNamed(context, '/home'); // Naviga alla home
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Errore: ${response.body}")),
+        SnackBar(content: Text("Errore: ${response.body}"), behavior: SnackBarBehavior.floating, backgroundColor: Colors.blue),
       );
     }
   }
@@ -55,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Benvenuto su ErrSmart", style: TextStyle(color: Color.fromARGB(255, 156, 190, 218)),),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 58, 118, 166),

@@ -80,9 +80,14 @@ class ItemsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text("errSmart", style: TextStyle(color: Colors.blue)),
         backgroundColor: const Color.fromARGB(255, 58, 118, 166),
         actions: [
+                    IconButton(
+            icon: Icon(Icons.search), onPressed: () => null,
+            // onPressed: () => _startSearch(context),
+          ),
           IconButton(
             icon: Icon(Icons.logout, color: Colors.blue),
             tooltip: 'logout',
@@ -153,12 +158,12 @@ return ListView.builder(
         try {
           await apiService.deleteProduct(item.id);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Prodotto eliminato con successo")),
+            SnackBar(content: Text("Prodotto eliminato con successo"), behavior: SnackBarBehavior.floating, backgroundColor: Colors.blue),
           );
           items.removeAt(index); // Rimuove dalla lista
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Errore durante l'eliminazione: $e")),
+            SnackBar(content: Text("Errore durante l'eliminazione: $e"), behavior: SnackBarBehavior.floating, backgroundColor: Colors.blue),
           );
         }
       },
