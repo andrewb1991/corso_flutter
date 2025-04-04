@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'src/products.dart';
 import './src/api_service.dart';
-import './src/products_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import './src/addproductpage.dart';
+import './src/products_screen.dart';
 import 'package:http/http.dart' as http;
 import './src/loginpage/login_new.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,12 +25,16 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => LoginPage(),
         '/home': (context) => ItemsScreen(),
+        '/product': (context) {
+      final product = ModalRoute.of(context)!.settings.arguments as Product;
+      return ProdottoScreen(product);
+    },
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue, 
+          seedColor: Colors.blue,
         ),
       ),
       home: ItemsScreen(),
@@ -81,10 +85,11 @@ class ItemsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        centerTitle: true,
         title: const Text("errSmart", style: TextStyle(color: Colors.blue)),
         backgroundColor: const Color.fromARGB(255, 58, 118, 166),
         actions: [
-                    IconButton(
+          IconButton(
             icon: Icon(Icons.search), onPressed: () => null,
             // onPressed: () => _startSearch(context),
           ),
@@ -102,8 +107,7 @@ class ItemsScreen extends StatelessWidget {
                       type: PageTransitionType.rightToLeftWithFade,
                       childCurrent: this,
                       child: AddProductPage(),
-                    )
-                    );
+                    ));
               }),
         ],
       ),
@@ -120,88 +124,96 @@ class ItemsScreen extends StatelessWidget {
           } else {
             final items = snapshot.data!;
 
-return ListView.builder(
-  itemCount: items.length,
-  itemBuilder: (context, index) {
-    final item = items[index];
-    return Dismissible(
-      key: Key(item.id),
-      direction: DismissDirection.endToStart,
-      background: Container(
-        color: Colors.red,
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: const Icon(Icons.delete, color: Colors.white),
-      ),
-      confirmDismiss: (direction) async {
-        return await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Conferma Eliminazione"),
-              content: Text("Sei sicuro di voler eliminare questo prodotto?"),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: Text("Annulla"),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: Text("Elimina", style: TextStyle(color: Colors.red)),
-                ),
-              ],
+            return ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                return Dismissible(
+                  key: Key(item.id),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: const Icon(Icons.delete, color: Colors.white),
+                  ),
+                  confirmDismiss: (direction) async {
+                    return await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Conferma Eliminazione"),
+                          content: Text(
+                              "Sei sicuro di voler eliminare questo prodotto?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: Text("Annulla"),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: Text("Elimina",
+                                  style: TextStyle(color: Colors.red)),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  onDismissed: (direction) async {
+                    try {
+                      await apiService.deleteProduct(item.id);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text("Prodotto eliminato con successo"),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.blue),
+                      );
+                      items.removeAt(index); // Rimuove dalla lista
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text("Errore durante l'eliminazione: $e"),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.blue),
+                      );
+                    }
+                  },
+                  child: ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeftJoined,
+                          childCurrent: this,
+                          child: ProdottoScreen(items[index]),
+                        ),
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    leading: Image.network(
+                      item.thumbnail,
+                      width: 50,
+                      height: 50,
+                      fit: BoxFit.scaleDown,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(Icons.broken_image, size: 50);
+                      },
+                    ),
+                    title: Text(item.product),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Categoria: ${item.category}"),
+                        Text("Prezzo: ${item.price} €"),
+                      ],
+                    ),
+                  ),
+                );
+              },
             );
-          },
-        );
-      },
-      onDismissed: (direction) async {
-        try {
-          await apiService.deleteProduct(item.id);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Prodotto eliminato con successo"), behavior: SnackBarBehavior.floating, backgroundColor: Colors.blue),
-          );
-          items.removeAt(index); // Rimuove dalla lista
-        } catch (e) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Errore durante l'eliminazione: $e"), behavior: SnackBarBehavior.floating, backgroundColor: Colors.blue),
-          );
-        }
-      },
-      child: ListTile(
-        onTap: () {
-          Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.rightToLeftJoined,
-              childCurrent: this,
-              child: ProdottoScreen(items[index]),
-            ),
-          );
-        },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
-        leading: Image.network(
-          item.thumbnail,
-          width: 50,
-          height: 50,
-          fit: BoxFit.scaleDown,
-          errorBuilder: (context, error, stackTrace) {
-            return Icon(Icons.broken_image, size: 50);
-          },
-        ),
-        title: Text(item.product),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Categoria: ${item.category}"),
-            Text("Prezzo: ${item.price} €"),
-          ],
-        ),
-      ),
-    );
-  },
-);
           }
         },
       ),
