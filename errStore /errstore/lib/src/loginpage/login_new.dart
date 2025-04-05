@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
       Uri.parse(apiUrl),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "email": emailController.text,
+        "email": emailController.text.toLowerCase(),
         "password": passwordController.text,
       }),
     );
