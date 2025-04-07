@@ -84,6 +84,18 @@ class ItemsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+      leading:
+      IconButton(
+              icon: Icon(Icons.add, color: Colors.greenAccent),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.rightToLeftWithFade,
+                      childCurrent: this,
+                      child: AddProductPage(),
+                    ));
+              }),
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text("errSmart", style: TextStyle(color: Colors.blue)),
@@ -94,21 +106,10 @@ class ItemsScreen extends StatelessWidget {
             // onPressed: () => _startSearch(context),
           ),
           IconButton(
-            icon: Icon(Icons.logout, color: Colors.blue),
+            icon: Icon(Icons.logout, color: const Color.fromARGB(255, 202, 72, 62)),
             tooltip: 'logout',
             onPressed: () => _confirmLogout(context),
           ),
-          IconButton(
-              icon: Icon(Icons.add, color: Colors.blue),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.rightToLeftWithFade,
-                      childCurrent: this,
-                      child: AddProductPage(),
-                    ));
-              }),
         ],
       ),
       backgroundColor: const Color.fromARGB(255, 156, 190, 218),

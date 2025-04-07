@@ -69,8 +69,8 @@ class _EditProductPageState extends State<EditProductPage> {
       product: nameController.text,
       description: descriptionController.text,
       price: priceController.text,
-      category: widget.product.category,
-      thumbnail: widget.product.thumbnail,
+      category: categoryController.text,
+      thumbnail: thumbnailController.text,
   );
 
      Navigator.pop(context, updatedProduct);

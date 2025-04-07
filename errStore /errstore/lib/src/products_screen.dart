@@ -26,31 +26,32 @@ class _ProdottoScreenState extends State<ProdottoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-         automaticallyImplyLeading: false,
-         leading:            
-         IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.blue),
-              onPressed: () async {
-                await Navigator.push(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.grey),
+            onPressed: () async {
+              await Navigator.push(
                   context,
-                  PageTransition(type: PageTransitionType.rightToLeftWithFade,
-                  child: ItemsScreen())
-                );
-                setState(() {
-                });
-              },
-            ),
+                  PageTransition(
+                      type: PageTransitionType.rightToLeftWithFade,
+                      child: ItemsScreen()));
+              setState(() {});
+            },
+          ),
           title: Text(currentProduct.product,
               style: TextStyle(color: Colors.blue)),
           actions: [
             IconButton(
-              icon: Icon(Icons.edit, color: Colors.blue),
+              icon: Icon(Icons.edit,
+                  color: const Color.fromARGB(255, 196, 235, 40)),
               onPressed: () async {
                 final updated = await Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        EditProductPage(product: currentProduct),
+                  PageTransition(
+                    type: PageTransitionType.rightToLeftWithFade,
+                    duration: Duration(milliseconds: 400),
+                    child: EditProductPage(product: currentProduct),
                   ),
                 );
 
@@ -61,7 +62,24 @@ class _ProdottoScreenState extends State<ProdottoScreen> {
                 }
               },
             ),
-           
+            // IconButton(
+            //   icon: Icon(Icons.edit, color: Colors.blue),
+            //   onPressed: () async {
+            //     final updated = await Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) =>
+            //             EditProductPage(product: currentProduct),
+            //       ),
+            //     );
+
+            //     if (updated != null && updated is Product) {
+            //       setState(() {
+            //         currentProduct = updated;
+            //       });
+            //     }
+            //   },
+            // ),
           ],
           backgroundColor: Color.fromARGB(255, 58, 118, 166),
         ),

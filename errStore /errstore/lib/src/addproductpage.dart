@@ -53,7 +53,9 @@ Navigator.pushReplacementNamed(context, '/home');
   Widget build(BuildContext context) {
     return Scaffold(
      backgroundColor:const Color.fromARGB(255, 156, 190, 218),
-      appBar: AppBar(title: Text('Aggiungi Prodotto', style: TextStyle(color: Colors.blue)), 
+      appBar: AppBar(
+      centerTitle: true,
+      title: Text('Aggiungi Prodotto', style: TextStyle(color: Colors.blue)), 
       backgroundColor: const Color.fromARGB(255, 58, 118, 166)),
       body: Padding(
         padding: const EdgeInsets.all(48.0),
